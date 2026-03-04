@@ -81,7 +81,7 @@ jobs:
   Terraform-Apply:
     name: ${{ inputs.ResourceName || 'S3' }} Creation
     runs-on: [ubuntu-latest]
-    if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.ApplyToProd == true
+    if: (github.event_name == 'push' && github.ref_name == 'main') || (github.event_name == 'workflow_dispatch' && inputs.ApplyToProd == true)
     needs: Terraform-Plan
     defaults:
       run:
