@@ -74,7 +74,7 @@ Workflow includes manual trigger with input:
 - applytoprod: Boolean
 
 Apply runs when:
-``
+```
 (github.event_name == 'push' && github.ref_name == 'main') ||
 (github.event_name == 'workflow_dispatch' && inputs.applytoprod == true)
 ```
