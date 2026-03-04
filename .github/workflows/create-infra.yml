@@ -1,9 +1,9 @@
 name: Infrastructure-Creation
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
     inputs:
       ResourceName:
@@ -17,6 +17,11 @@ on:
         description: 'Name of the region'
         type: string
         default: 'us-east-1'
+      ApplyToProd:
+        description: 'Create the infrastructure in the account'
+        type: boolean
+        default: false
+        required: false
 
 env:
   AWS_REGION: ${{ inputs.RegionName || 'us-east-1' }}
@@ -76,7 +81,7 @@ jobs:
   Terraform-Apply:
     name: ${{ inputs.ResourceName || 'S3' }} Creation
     runs-on: [ubuntu-latest]
-    if: github.event_name == 'push' && github.ref_name == 'main'
+    if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.ApplyToProd == true
     needs: Terraform-Plan
     defaults:
       run:
