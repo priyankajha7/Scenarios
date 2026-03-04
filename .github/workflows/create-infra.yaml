@@ -71,7 +71,7 @@ jobs:
         with:
           name: ${{ github.workflow }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ env.AWS_REGION }}-${{ env.AWS_RESOURCE }}
           path: |
-            terraform_plan/*.plan
+            terraform/${{ env.AWS_RESOURCE }}/terraform_plan/*.plan
           retention-days: 1
 
   Terraform-Apply:
@@ -105,7 +105,7 @@ jobs:
         with:
           name: ${{ github.workflow }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ env.AWS_REGION }}-${{ env.AWS_RESOURCE }}
           path: |
-            terraform_plan/${{ github.workflow }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ env.AWS_REGION }}-${{ env.AWS_RESOURCE }}
+            $GITHUB_WORKSPACE/terraform_plan/${{ github.workflow }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ env.AWS_REGION }}-${{ env.AWS_RESOURCE }}
 
       - name: Terraform Init
         run: terraform init -backend-config="../../My_AWS_Account/${{ env.AWS_REGION }}/${{ env.AWS_RESOURCE }}/backend.tfvars" 
