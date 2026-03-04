@@ -7,10 +7,6 @@ on:
       - feature/create-EC2-and-S3
   workflow_dispatch:
     inputs:
-      account_id:
-        type: string
-        required: true
-        default: '411052131155'
       ResourceName:
         description: 'Mention the resource to be created'
         type: choice
@@ -24,8 +20,8 @@ on:
         default: 'us-east-1'
 
 env:
-  AWS_REGION: ${{ inputs.RegionName }}
-  AWS_RESOURCE: ${{ inputs.ResourceName }}
+  AWS_REGION: ${{ inputs.RegionName || 'us-east-1' }}
+  AWS_RESOURCE: ${{ inputs.ResourceName || 'EC2_instance' }}
 
 jobs:
   Terraform-Plan:
@@ -41,8 +37,6 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          account_id: ${{ inputs.account_id }}
-          aws_region: ${{ inputs.RegionName }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
@@ -94,8 +88,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          account_id: ${{ inputs.account_id }}
-          aws_region: ${{ inputs.RegionName }}
+          # account_id: ${{ inputs.account_id }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
