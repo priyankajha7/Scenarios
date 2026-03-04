@@ -18,7 +18,7 @@ on:
         type: string
         default: 'us-east-1'
       ApplyToProd:
-        description: 'Create the infrastructure in the account'
+        description: 'Terraform Apply'
         type: boolean
         default: false
         required: false
@@ -86,8 +86,8 @@ jobs:
     defaults:
       run:
         working-directory: ./terraform/${{ env.AWS_RESOURCE }}
-    environment:
-      name: Production
+    # environment:
+    #   name: Production
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
