@@ -1,10 +1,9 @@
-name: Infrastructure Creation
+name: Infrastructure-Creation
 
 on:
   push:
     branches:
       - main
-      - feature/create-EC2-and-S3
   workflow_dispatch:
     inputs:
       ResourceName:
@@ -75,7 +74,7 @@ jobs:
           retention-days: 1
 
   Terraform-Apply:
-    name: ${{ inputs.ResourceName }} Creation
+    name: ${{ inputs.ResourceName || 'S3' }} Creation
     runs-on: [ubuntu-latest]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: Terraform-Plan
