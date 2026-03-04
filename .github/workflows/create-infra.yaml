@@ -50,7 +50,7 @@ jobs:
         run: terraform fmt
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="../../My_AWS_Account/${{ env.AWS_REGION }}/${{ env.AWS_RESOURCE }}/backend.tfvars" 
 
       - name: Terraform Validate
         run: terraform validate
@@ -88,7 +88,6 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          # account_id: ${{ inputs.account_id }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
@@ -106,7 +105,7 @@ jobs:
             terraform_plan/${{ github.workflow }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ env.AWS_REGION }}-${{ env.AWS_RESOURCE }}
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="../../My_AWS_Account/${{ env.AWS_REGION }}/${{ env.AWS_RESOURCE }}/backend.tfvars" 
 
       - name: Terraform Apply
         run: terraform apply "$GITHUB_WORKSPACE/terraform_plan/${{ github.workflow }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ env.AWS_REGION }}-${{ env.AWS_RESOURCE }}/${{ env.AWS_RESOURCE }}.plan"
